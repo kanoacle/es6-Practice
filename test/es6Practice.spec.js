@@ -311,7 +311,7 @@ describe('destructuring arrays makes shorter code', () => {
   });
 
   it('in for-of loop', () => {
-    for (var [a, b] of [[0, 1, 2]]) {}
+    for (var [, a, b] of [[0, 1, 2]]) {}
     assert.deepEqual([a, b], [1, 2]);
   });
 });
@@ -319,20 +319,20 @@ describe('destructuring arrays makes shorter code', () => {
 // Default parameters - basics
 describe('default parameters make function parameters more flexible', () => {
   it('define it using an assignment to the parameter `function(param=1){}`', function() {
-    let number = (int) => int;
+    let number = (int) => int = 0;
 
     assert.equal(number(), 0);
   });
 
   it('it is used when undefined is passed', function() {
     let number = (int = 23) => int;
-    const param = 42;
+    let param;
 
     assert.equal(number(param), 23);
   });
 
   it('it is not used when a value is given', function() {
-    function xhr() {
+    function xhr(method) {
       return method;
     }
 
@@ -345,12 +345,12 @@ describe('default parameters make function parameters more flexible', () => {
       return method;
     }
 
+    defaultValue = 42;
     assert.equal(xhr(), 'value: 42');
-    defaultValue = 23;
   });
 
   it('it can also be a function', function() {
-    let defaultValue;
+    let defaultValue = () => {};
     function fn(value = defaultValue()) {
       return value;
     }
@@ -363,18 +363,18 @@ describe('default parameters make function parameters more flexible', () => {
 describe('generator can be created in multiple ways', function() {
 
   it('the most common way is by adding `*` after `function`', function() {
-    function g() {}
+    function* g() {yield;}
     assertIsGenerator(g());
   });
 
   it('as a function expression, by adding a `*` after `function`', function() {
-    let g = function() {};
+    let g = function*() {yield;};
     assertIsGenerator(g());
   });
 
   it('inside an object by prefixing the function name with `*`', function() {
     let obj = {
-      g() {}
+      *g() {yield;}
     };
     assertIsGenerator(obj.g());
   });
@@ -382,7 +382,7 @@ describe('generator can be created in multiple ways', function() {
   it('computed generator names, are just prefixed with a `*`', function() {
     const generatorName = 'g';
     let obj = {
-      [generatorName]() {}
+      *[generatorName]() {yield;}
     };
     assertIsGenerator(obj.g());
   });
@@ -390,7 +390,7 @@ describe('generator can be created in multiple ways', function() {
   it('inside a class the same way', function() {
     const generatorName = 'g';
     class Klazz {
-      [generatorName]() {}
+      *[generatorName]() {yield;}
     }
     assertIsGenerator(new Klazz().g());
   });
@@ -416,12 +416,12 @@ describe('a generator returns an iterable object', function() {
   });
 
   it('a generator returns an object', function() {
-    const typeOfTheGenerator = '';
+    const typeOfTheGenerator = 'object';
     assert.equal(typeof generator, typeOfTheGenerator);
   });
 
   it('a generator object has a key `Symbol.iterator`', function() {
-    const key = '???';
+    const key = Symbol.iterator;
     assert.equal(key in generator, true);
   });
 
