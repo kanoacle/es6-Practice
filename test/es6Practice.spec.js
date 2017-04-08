@@ -462,12 +462,12 @@ describe('generator - `yield` is used to pause and resume a generator function',
   describe('after the first `generator.next()` call', function() {
 
     it('the value is "hello"', function() {
-      const {value} = generator.next;
+      const value = generator.next().value;
       assert.equal(value, 'hello');
     });
 
     it('and `done` is false', function() {
-      const {done} = generator;
+      const done = generator.next().done;
       assert.equal(done, false);
     });
 
@@ -478,6 +478,7 @@ describe('generator - `yield` is used to pause and resume a generator function',
     let secondItem;
     beforeEach(function() {
       secondItem = generator.next();
+      secondItem = generator.next();
     });
 
     it('`value` is "world"', function() {
@@ -486,7 +487,7 @@ describe('generator - `yield` is used to pause and resume a generator function',
     });
 
     it('and `done` is still false', function() {
-      const done = secondItem;
+      const done = secondItem.done;
       assert.equal(done, false);
     });
   });
@@ -496,7 +497,7 @@ describe('generator - `yield` is used to pause and resume a generator function',
     it('`done` property equals true, since there is nothing more to iterator over', function() {
       generator.next();
       generator.next();
-      let done = generator.done;
+      let done = generator.next().done;
       assert.equal(done, true);
     });
 
@@ -509,30 +510,30 @@ describe('generator - `yield` is used to pause and resume a generator function',
 
 describe('Symbol', function() {
   it('`Symbol` lives in the global scope', function(){
-    const expected = document.Symbol;
+    const expected = Symbol;
     assert.equal(Symbol, expected);
   });
 
   it('every `Symbol()` is unique', function(){
     const sym1 = Symbol();
-    const sym2 = sym1;
+    const sym2 = Symbol();
     assert.notEqual(sym1, sym2);
   });
 
   it('every `Symbol()` is unique, also with the same parameter', function(){
     var sym1 = Symbol('foo');
-    var sym1 = Symbol('foo');
+    var sym2 = Symbol('foo');
     assert.notEqual(sym1, sym2);
   });
 
   it('`typeof Symbol()` returns "symbol"', function(){
-    const theType = typeof Symbol;
+    const theType = typeof Symbol();
     assert.equal(theType, 'symbol');
   });
 
   it('`new Symbol()` throws an exception, to prevent creation of Symbol wrapper objects', function(){
     function fn() {
-      Symbol();
+      new Symbol();
     }
     assert.throws(fn);
   });
