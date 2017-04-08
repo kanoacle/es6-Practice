@@ -1,7 +1,7 @@
 {
   "name": "es6-Practice",
   "version": "1.0.0",
-  "description": "",
+  "description": "### Your Mission",
   "main": "app.js",
   "scripts": {
     "test": "mocha --bail --watch"
@@ -11,6 +11,17 @@
   "license": "ISC",
   "devDependencies": {
     "chai": "^3.5.0",
-    "mocha": "^3.0.2"
-  }
+    "mocha": "^3.2.0"
+  },
+  "directories": {
+    "test": "test"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/kanoacle/es6-Practice.git"
+  },
+  "bugs": {
+    "url": "https://github.com/kanoacle/es6-Practice/issues"
+  },
+  "homepage": "https://github.com/kanoacle/es6-Practice#readme"
 }
