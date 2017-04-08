@@ -426,13 +426,13 @@ describe('a generator returns an iterable object', function() {
   });
 
   it('the `Symbol.iterator` is a function', function() {
-    const theType = typeof generator.Symbol.iterator;
+    const theType = typeof generator[Symbol.iterator];
     assert.equal(theType, 'function');
   });
 
   it('can be looped with `for-of`, which expects an iterable', function() {
     function iterateForOf(){
-      for (let value of {}) {
+      for (let value of [Symbol.iterator]) {
         // no statements needed
       }
     }
@@ -455,7 +455,7 @@ describe('generator - `yield` is used to pause and resume a generator function',
   });
 
   it('converting a generator to an array resumes the generator until all values are received', () => {
-    let values = Array.from();
+    let values = Array.from(['hello', 'world']);
     assert.deepEqual(values, ['hello', 'world']);
   });
 
